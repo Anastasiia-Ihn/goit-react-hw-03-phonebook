@@ -15,6 +15,22 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const arrContacts = localStorage.getItem('list-contacts');
+    if (arrContacts !== null) {
+      this.setState({ contacts: JSON.parse(arrContacts) });
+    }
+    //при загруженні стoрінки дані беруться з локал.ст
+  }
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem(
+        'list-contacts',
+        JSON.stringify(this.state.contacts)
+      );
+    }
+  }
+
   addContact = newContact => {
     const isElem = this.state.contacts.find(contact => {
       return contact.name === newContact.name;
